@@ -9,6 +9,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Nest-postGre')
     .setVersion('v1')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
