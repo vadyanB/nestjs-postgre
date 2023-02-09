@@ -1,12 +1,11 @@
-import { IsInt } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsNumberString, IsOptional } from 'class-validator';
 
 export class GetNotesQueryDto {
-  @IsInt()
-  @Type(() => Number)
+  @IsOptional()
+  @IsNumberString()
   userId: number;
 
-  @IsInt()
-  @Type(() => Number)
+  @IsOptional()
+  @IsNumberString()
   topicId: number;
 }

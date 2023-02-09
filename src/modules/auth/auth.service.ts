@@ -28,7 +28,7 @@ export class AuthService {
     });
   }
 
-  signToken(data: { [key: string]: any } = {}) {
+  signToken(data = {}) {
     const jwt_secret_key = this.configService.get('JWT_SECRET_KEY');
 
     return jwt.sign(data, jwt_secret_key);

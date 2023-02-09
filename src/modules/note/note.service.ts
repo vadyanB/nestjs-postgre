@@ -1,11 +1,11 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { ForbiddenException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { Optional } from '../../types/types';
 import { Note } from '../entities/note.entity';
 import { User } from '../entities/user.entity';
 import { CreateNoteDto } from './dto/create-note.dto';
-import { NoteIdDto } from './dto/note-id.dto';
 
 @Injectable()
 export class NoteService {
@@ -14,13 +14,13 @@ export class NoteService {
     private noteRepository: Repository<Note>,
   ) {}
 
-  findOne(filter: { [key: string]: string | number | NoteIdDto }) {
+  findOne(filter: Optional<Note>) {
     return this.noteRepository.findOne({
       where: filter,
     });
   }
 
-  getNotesBy(filter: { [key: string]: string | number }) {
+  getNotesBy(filter: Optional<Note>) {
     return this.noteRepository.find({
       where: filter,
     });
@@ -35,13 +35,22 @@ export class NoteService {
     return this.noteRepository.save(createdPost);
   }
 
-  async patchNote(id, note) {
+  async patchNote(id, note, user) {
+    await this.checkIsUserOwner(id, user.id);
     await this.noteRepository.update(id, note);
-    return this.findOne(id);
+    return this.findOne({ id });
   }
 
-  async deleteNote(id, res) {
+  async deleteNote(id, res, user) {
+    await this.checkIsUserOwner(id, user.id);
     await this.noteRepository.delete(id);
     return res.status(HttpStatus.NO_CONTENT).send({ status: 'success' });
+  }
+
+  async checkIsUserOwner(id, userId) {
+    const note = await this.findOne({ id });
+    if (note.user !== userId) {
+      throw new ForbiddenException('you are not owner');
+    }
   }
 }

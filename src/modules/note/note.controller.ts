@@ -13,9 +13,9 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ApiQuery } from '@nestjs/swagger/dist/decorators/api-query.decorator';
 import { Response } from 'express';
 
-import { NoteService } from './note.service';
 import { CurrentUser } from '../shared/decorators/current-user.decorator';
 import { User } from '../entities/user.entity';
+import { NoteService } from './note.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { GetNotesQueryDto } from './dto/get-notes-query.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
@@ -26,11 +26,6 @@ import { NoteIdDto } from './dto/note-id.dto';
 export class NoteController {
   constructor(private readonly postService: NoteService) {}
 
-  @Get(':id')
-  getNote(@Param('id') id: number) {
-    return this.postService.findOne({ id });
-  }
-
   @ApiQuery({ name: 'userId', required: false })
   @ApiQuery({ name: 'topicId', required: false })
   @Get()
@@ -39,14 +34,29 @@ export class NoteController {
     return this.postService.getNotesBy({ userId, topicId });
   }
 
-  @Patch(':id')
-  patchNote(@Param() { id }: NoteIdDto, @Body() body: UpdateNoteDto) {
-    return this.postService.patchNote(id, body);
+  @Get(':id')
+  getNote(@Param('id') id: number) {
+    return this.postService.findOne({ id });
   }
 
+  @ApiBearerAuth()
+  @Patch(':id')
+  patchNote(
+    @Param() { id }: NoteIdDto,
+    @Body() body: UpdateNoteDto,
+    @CurrentUser() user: User,
+  ) {
+    return this.postService.patchNote(id, body, user);
+  }
+
+  @ApiBearerAuth()
   @Delete(':id')
-  deleteNote(@Param() { id }: NoteIdDto, @Res() res: Response) {
-    return this.postService.deleteNote(id, res);
+  deleteNote(
+    @Param() { id }: NoteIdDto,
+    @Res() res: Response,
+    @CurrentUser() user: User,
+  ) {
+    return this.postService.deleteNote(id, res, user);
   }
 
   @ApiBearerAuth()
