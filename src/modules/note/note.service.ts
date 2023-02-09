@@ -1,11 +1,11 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Response } from 'express';
 
 import { Note } from '../entities/note.entity';
 import { User } from '../entities/user.entity';
 import { CreateNoteDto } from './dto/create-note.dto';
+import { NoteIdDto } from './dto/note-id.dto';
 
 @Injectable()
 export class NoteService {
@@ -14,7 +14,7 @@ export class NoteService {
     private noteRepository: Repository<Note>,
   ) {}
 
-  getNoteBy(filter: { [key: string]: string | number }) {
+  findOne(filter: { [key: string]: string | number | NoteIdDto }) {
     return this.noteRepository.findOne({
       where: filter,
     });
@@ -35,12 +35,12 @@ export class NoteService {
     return this.noteRepository.save(createdPost);
   }
 
-  async patchNote(id: number, note: Partial<Note>) {
+  async patchNote(id, note) {
     await this.noteRepository.update(id, note);
-    return this.getNoteBy({ id });
+    return this.findOne(id);
   }
 
-  async deleteNote(id: number, res: Response) {
+  async deleteNote(id, res) {
     await this.noteRepository.delete(id);
     return res.status(HttpStatus.NO_CONTENT).send({ status: 'success' });
   }

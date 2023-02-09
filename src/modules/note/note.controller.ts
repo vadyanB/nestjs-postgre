@@ -19,6 +19,7 @@ import { User } from '../entities/user.entity';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { GetNotesQueryDto } from './dto/get-notes-query.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
+import { NoteIdDto } from './dto/note-id.dto';
 
 @ApiTags('notes')
 @Controller('notes')
@@ -27,7 +28,7 @@ export class NoteController {
 
   @Get(':id')
   getNote(@Param('id') id: number) {
-    return this.postService.getNoteBy({ id });
+    return this.postService.findOne({ id });
   }
 
   @ApiQuery({ name: 'userId', required: false })
@@ -39,17 +40,12 @@ export class NoteController {
   }
 
   @Patch(':id')
-  patchNote(
-    @CurrentUser()
-    @Param('id')
-    id: number,
-    @Body() body: UpdateNoteDto,
-  ) {
+  patchNote(@Param() { id }: NoteIdDto, @Body() body: UpdateNoteDto) {
     return this.postService.patchNote(id, body);
   }
 
   @Delete(':id')
-  deleteNote(@Param('id') id: number, @Res() res: Response) {
+  deleteNote(@Param() { id }: NoteIdDto, @Res() res: Response) {
     return this.postService.deleteNote(id, res);
   }
 
