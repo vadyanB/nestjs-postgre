@@ -10,11 +10,11 @@ export class UserController {
 
   @Get(':id')
   getUser(@Param('id') id: number) {
-    return this.userService.getUserBy({ id });
+    return this.userService.getUserShrinkBy(id);
   }
 
   @Get()
   getUsers() {
-    return this.userService.getUsers();
+    return this.userService.getUsersShrink();
   }
 }

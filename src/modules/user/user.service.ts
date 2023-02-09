@@ -38,11 +38,20 @@ export class UserService {
     return this.getUserBy({ id });
   }
 
-  getUsers() {
+  getUsersShrink() {
     return this.userRepository
       .createQueryBuilder('user')
       .select('user.id')
       .addSelect('user.name')
       .getMany();
+  }
+
+  getUserShrinkBy(id: number) {
+    return this.userRepository
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id })
+      .select('user.id')
+      .addSelect('user.name')
+      .getOne();
   }
 }
