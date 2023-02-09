@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
+import { Topic } from './topics.entity';
 
 @Entity()
 export class Note {
@@ -33,4 +34,7 @@ export class Note {
 
   @ManyToOne(() => User, (user) => user.notes)
   user: User;
+
+  @ManyToOne(() => Topic, (topic) => topic.notes)
+  topic: Topic;
 }
