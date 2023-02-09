@@ -15,14 +15,17 @@ import { Response } from 'express';
 
 import { CurrentUser } from '../shared/decorators/current-user.decorator';
 import { User } from '../entities/user.entity';
+import { IsAuthorized } from '../shared/decorators/is-authorized.decorator';
 import { NoteService } from './note.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { GetNotesQueryDto } from './dto/get-notes-query.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { NoteIdDto } from './dto/note-id.dto';
 
+@ApiBearerAuth()
 @ApiTags('notes')
 @Controller('notes')
+@IsAuthorized()
 export class NoteController {
   constructor(private readonly postService: NoteService) {}
 
@@ -39,7 +42,6 @@ export class NoteController {
     return this.postService.findOne({ id });
   }
 
-  @ApiBearerAuth()
   @Patch(':id')
   patchNote(
     @Param() { id }: NoteIdDto,
@@ -49,7 +51,6 @@ export class NoteController {
     return this.postService.patchNote(id, body, user);
   }
 
-  @ApiBearerAuth()
   @Delete(':id')
   deleteNote(
     @Param() { id }: NoteIdDto,
@@ -59,7 +60,6 @@ export class NoteController {
     return this.postService.deleteNote(id, res, user);
   }
 
-  @ApiBearerAuth()
   @Post()
   createNote(@CurrentUser() user: User, @Body() body: CreateNoteDto) {
     return this.postService.createNote(user, body);

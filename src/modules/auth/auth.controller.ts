@@ -4,6 +4,7 @@ import { Response } from 'express';
 
 import { User } from '../entities/user.entity';
 import { CurrentUser } from '../shared/decorators/current-user.decorator';
+import { IsAuthorized } from '../shared/decorators/is-authorized.decorator';
 import { AuthService } from './auth.service';
 import { UserSignUpInput } from './dto/user-sign-up.input';
 import { UserLoginInput } from './dto/user-login.input';
@@ -25,6 +26,7 @@ export class AuthController {
 
   @ApiBearerAuth()
   @Post('logout')
+  @IsAuthorized()
   async logout(@CurrentUser() user: User, @Res() res: Response) {
     return this.authService.logout(user, res);
   }

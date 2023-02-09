@@ -4,9 +4,14 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
 
 import { AppModule } from './app.module';
+import { SharedModule } from './modules/shared/shared.module';
+import { IsAuthorizedGuard } from './modules/shared/guards/is-authorized.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const isAuthorizedGuard = app.select(SharedModule).get(IsAuthorizedGuard);
+  app.useGlobalGuards(isAuthorizedGuard);
 
   app.useGlobalPipes(
     new ValidationPipe({
