@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:sync": "yarn typeorm schema:sync -d ./src/modules/ormconfig.ts",
     "db:down": "yarn typeorm migration:revert -d ./src/modules/ormconfig.ts",
-    "db:create": "yarn typeorm migration:create -d",
+    "db:create": "yarn typeorm migration:create",
     "db:up": "yarn typeorm migration:run -d ./src/modules/ormconfig.ts",
     "db:generate": "yarn typeorm migration:generate -p true -d ./src/modules/ormconfig.ts",
     "typeorm": "typeorm-ts-node-commonjs"
