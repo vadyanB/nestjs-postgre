@@ -1,5 +1,8 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString, Validate } from 'class-validator';
+
+import { ShouldExistValidator } from '../../shared/validators/should-exist-validator';
+import { TopicsService } from '../../topics/topics.service';
 
 export class UpdateNoteDto {
   @ApiPropertyOptional()
@@ -15,5 +18,10 @@ export class UpdateNoteDto {
   @ApiPropertyOptional()
   @IsOptional()
   @IsNumber()
+  @Validate(ShouldExistValidator, [
+    {
+      service: TopicsService,
+    },
+  ])
   topicId: number;
 }
