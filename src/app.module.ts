@@ -8,12 +8,14 @@ import { dataSourceOptions } from './modules/ormconfig';
 
 @Module({
   imports: [
+    SharedModule,
     ConfigModule.forRoot({ isGlobal: true, expandVariables: true }),
     TypeOrmModule.forRoot({
       ...dataSourceOptions,
       migrations: [],
+      migrationsRun: false,
+      synchronize: false,
     }),
-    SharedModule,
   ],
 })
 export class AppModule {

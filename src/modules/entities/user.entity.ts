@@ -18,6 +18,9 @@ export class User {
   @Column({ nullable: true })
   token?: string;
 
-  @OneToMany(() => Note, (note) => note.user)
+  @OneToMany(() => Note, (note) => note.user, {
+    nullable: true,
+    lazy: true,
+  })
   notes: Note[];
 }

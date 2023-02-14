@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { Optional } from '../../types/types';
 import { Topic } from '../entities/topics.entity';
 
 @Injectable()
@@ -13,5 +14,11 @@ export class TopicsService {
 
   getTopics() {
     return this.topicsRepository.createQueryBuilder('topic').getMany();
+  }
+
+  findOne(filter: Optional<Topic>) {
+    return this.topicsRepository.findOne({
+      where: filter,
+    });
   }
 }

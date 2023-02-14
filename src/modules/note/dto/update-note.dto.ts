@@ -1,19 +1,19 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateNoteDto {
   @ApiPropertyOptional()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   title: string;
 
   @ApiPropertyOptional()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   text: string;
 
   @ApiPropertyOptional()
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   topicId: number;
 }

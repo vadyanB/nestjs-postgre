@@ -44,6 +44,7 @@ export class UserService {
       .createQueryBuilder('user')
       .select('user.id')
       .addSelect('user.name')
+      .addSelect('user.email')
       .getMany();
   }
 
@@ -53,6 +54,7 @@ export class UserService {
       .where('user.id = :id', { id })
       .select('user.id')
       .addSelect('user.name')
+      .addSelect('user.email')
       .getOne();
   }
 }

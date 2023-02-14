@@ -15,18 +15,19 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('signup')
+  @IsAuthorized(true)
   async signup(@Body() body: UserSignUpInput) {
     return this.authService.userSignUp(body);
   }
 
   @Post('login')
+  @IsAuthorized(true)
   async login(@Body() body: UserLoginInput) {
     return this.authService.userLogin(body);
   }
 
   @ApiBearerAuth()
   @Post('logout')
-  @IsAuthorized()
   async logout(@CurrentUser() user: User, @Res() res: Response) {
     return this.authService.logout(user, res);
   }

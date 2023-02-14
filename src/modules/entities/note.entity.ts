@@ -4,6 +4,7 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  RelationId,
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
@@ -15,16 +16,10 @@ export class Note {
   id: number;
 
   @Column()
-  topicId: number;
-
-  @Column()
   title: string;
 
   @Column()
   text: string;
-
-  @Column()
-  userId: number;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -32,9 +27,20 @@ export class Note {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.notes)
+  @ManyToOne(() => User, (user) => user.notes, {
+    lazy: true,
+  })
   user: User;
 
-  @ManyToOne(() => Topic, (topic) => topic.notes)
-  topic: Topic;
+  @RelationId((note: Note) => note.user)
+  userId: number;
+
+  @ManyToOne(() => Topic, {
+    lazy: true,
+    onDelete: 'SET NULL',
+  })
+  topic?: Topic;
+
+  @RelationId((note: Note) => note.topic)
+  topicId: number;
 }

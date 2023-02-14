@@ -26,18 +26,25 @@ export class NoteService {
     });
   }
 
-  createNote(user: User, body: CreateNoteDto) {
+  async createNote(user: User, body: CreateNoteDto) {
     const createdPost = this.noteRepository.create({
       ...body,
-      userId: user.id,
+      user: { id: user.id },
+      topic: { id: body.topicId },
     });
 
-    return this.noteRepository.save(createdPost);
+    await this.noteRepository.save(createdPost);
+    return this.findOne({ id: createdPost.id });
   }
 
   async patchNote(id, note, user) {
+    const { text, title, topicId } = note;
     await this.checkIsUserOwner(id, user.id);
-    await this.noteRepository.update(id, note);
+    await this.noteRepository.update(id, {
+      text,
+      title,
+      topic: { id: topicId },
+    });
     return this.findOne({ id });
   }
 
@@ -49,7 +56,7 @@ export class NoteService {
 
   async checkIsUserOwner(id, userId) {
     const note = await this.findOne({ id });
-    if (note.user !== userId) {
+    if (note.userId !== userId) {
       throw new ForbiddenException('you are not owner');
     }
   }

@@ -1,5 +1,8 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber, IsString, Validate } from 'class-validator';
+
+import { ShouldExistValidator } from '../../shared/validators/should-exist-validator';
+import { TopicsService } from '../../topics/topics.service';
 
 export class CreateNoteDto {
   @ApiProperty()
@@ -15,5 +18,10 @@ export class CreateNoteDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsNumber()
+  @Validate(ShouldExistValidator, [
+    {
+      service: TopicsService,
+    },
+  ])
   topicId: number;
 }

@@ -15,7 +15,6 @@ import { Response } from 'express';
 
 import { CurrentUser } from '../shared/decorators/current-user.decorator';
 import { User } from '../entities/user.entity';
-import { IsAuthorized } from '../shared/decorators/is-authorized.decorator';
 import { NoteService } from './note.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { GetNotesQueryDto } from './dto/get-notes-query.dto';
@@ -25,7 +24,6 @@ import { NoteIdDto } from './dto/note-id.dto';
 @ApiBearerAuth()
 @ApiTags('notes')
 @Controller('notes')
-@IsAuthorized()
 export class NoteController {
   constructor(private readonly postService: NoteService) {}
 
