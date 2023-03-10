@@ -5,7 +5,7 @@ import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 
-import { UserService } from '../user/user.service';
+import { UsersService } from '../users/users.service';
 import { User } from '../shared/entities/user.entity';
 import { UserSignUpInput } from './dto/user-sign-up.input';
 import { UserLoginInput } from './dto/user-login.input';
@@ -13,7 +13,7 @@ import { UserLoginInput } from './dto/user-login.input';
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
+    private usersService: UsersService,
     private configService: ConfigService,
   ) {}
 
@@ -21,7 +21,7 @@ export class AuthService {
     const password = await this.generatePasswordHash(input.password);
     const token = await this.signToken();
 
-    return await this.userService.createUser({
+    return await this.usersService.createUser({
       ...input,
       password,
       token,
@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   async userLogin({ email, password }: UserLoginInput) {
-    const user = await this.userService.getUserWithPasswordByEmail(email);
+    const user = await this.usersService.getUserWithPasswordByEmail(email);
     if (!user) {
       throw new HttpException(
         'wrong email or password',
@@ -62,7 +62,7 @@ export class AuthService {
         }
         const newToken = await this.signToken();
         return resolve(
-          this.userService.updateUser(user.id, { token: newToken }),
+          this.usersService.updateUser(user.id, { token: newToken }),
         );
       });
     });
@@ -79,7 +79,7 @@ export class AuthService {
   }
 
   async logout(user: User, res: Response) {
-    await this.userService.updateUser(user.id, { token: '' });
+    await this.usersService.updateUser(user.id, { token: '' });
     return res.status(HttpStatus.OK).send({ status: 'success' });
   }
 }

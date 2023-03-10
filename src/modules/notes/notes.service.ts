@@ -7,7 +7,7 @@ import { User } from '../shared/entities/user.entity';
 import { CreateNoteDto } from './dto/create-note.dto';
 
 @Injectable()
-export class NoteService {
+export class NotesService {
   constructor(
     @InjectRepository(Note)
     private noteRepository: Repository<Note>,
