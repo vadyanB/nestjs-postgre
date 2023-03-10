@@ -2,7 +2,6 @@ import { ForbiddenException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Optional } from '../../types/types';
 import { Note } from '../entities/note.entity';
 import { User } from '../entities/user.entity';
 import { CreateNoteDto } from './dto/create-note.dto';
@@ -14,13 +13,13 @@ export class NoteService {
     private noteRepository: Repository<Note>,
   ) {}
 
-  findOne(filter: Optional<Note>) {
+  findOne(filter: Partial<Note>) {
     return this.noteRepository.findOne({
       where: filter,
     });
   }
 
-  getNotesBy(filter: Optional<Note>) {
+  getNotesBy(filter: Partial<Note>) {
     return this.noteRepository.find({
       where: filter,
     });

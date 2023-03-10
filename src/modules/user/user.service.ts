@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Optional } from '../../types/types';
 import { User } from '../entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 
@@ -21,7 +20,7 @@ export class UserService {
       .getOne();
   }
 
-  getUserBy(filter: Optional<User>) {
+  getUserBy(filter: Partial<User>) {
     return this.userRepository.findOne({
       where: filter,
     });
