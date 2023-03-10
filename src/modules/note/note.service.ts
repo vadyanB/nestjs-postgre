@@ -2,8 +2,8 @@ import { ForbiddenException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Note } from '../entities/note.entity';
-import { User } from '../entities/user.entity';
+import { Note } from '../shared/entities/note.entity';
+import { User } from '../shared/entities/user.entity';
 import { CreateNoteDto } from './dto/create-note.dto';
 
 @Injectable()

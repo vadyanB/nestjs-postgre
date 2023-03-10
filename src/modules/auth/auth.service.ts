@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 
 import { UserService } from '../user/user.service';
-import { User } from '../entities/user.entity';
+import { User } from '../shared/entities/user.entity';
 import { UserSignUpInput } from './dto/user-sign-up.input';
 import { UserLoginInput } from './dto/user-login.input';
 

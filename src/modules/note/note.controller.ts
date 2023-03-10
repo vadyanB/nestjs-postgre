@@ -14,7 +14,7 @@ import { ApiQuery } from '@nestjs/swagger/dist/decorators/api-query.decorator';
 import { Response } from 'express';
 
 import { CurrentUser } from '../shared/decorators/current-user.decorator';
-import { User } from '../entities/user.entity';
+import { User } from '../shared/entities/user.entity';
 import { NoteService } from './note.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { GetNotesQueryDto } from './dto/get-notes-query.dto';

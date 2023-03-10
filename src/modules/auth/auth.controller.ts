@@ -2,7 +2,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 
-import { User } from '../entities/user.entity';
+import { User } from '../shared/entities/user.entity';
 import { CurrentUser } from '../shared/decorators/current-user.decorator';
 import { IsAuthorized } from '../shared/decorators/is-authorized.decorator';
 import { AuthService } from './auth.service';

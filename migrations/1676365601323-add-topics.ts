@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { Topic } from '../src/modules/entities/topics.entity';
+import { Topic } from '../src/modules/shared/entities/topic.entity';
 import { TopicType } from '../src/modules/shared/enum/topic-type.enum';
 
 export class addTopics1676365601323 implements MigrationInterface {
