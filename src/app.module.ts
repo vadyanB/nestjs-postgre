@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { SharedModule } from './modules/shared/shared.module';
 import { AuthMiddleware } from './modules/shared/middlewares/auth.middleware';
-import { dataSourceOptions } from './modules/ormconfig';
+import { dataSourceOptions } from './ormconfig';
 
 @Module({
   imports: [
