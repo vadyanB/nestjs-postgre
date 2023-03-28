@@ -19,9 +19,11 @@ export class NotesService {
     });
   }
 
-  getNotesBy(filter: Partial<Note>) {
-    return this.noteRepository.find({
+  async getNotesBy(filter: Partial<Note>) {
+    return await this.noteRepository.find({
       where: filter,
+    }).catch(() => {
+      return [];
     });
   }
 
