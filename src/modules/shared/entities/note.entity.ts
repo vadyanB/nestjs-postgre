@@ -33,6 +33,7 @@ export class Note {
   user: User;
 
   @RelationId((note: Note) => note.user)
+  @Column()
   userId: number;
 
   @ManyToOne(() => Topic, {
@@ -42,5 +43,6 @@ export class Note {
   topic?: Topic;
 
   @RelationId((note: Note) => note.topic)
+  @Column()
   topicId: number;
 }

@@ -8,7 +8,7 @@ import { SharedModule } from './modules/shared/shared.module';
 import { IsAuthorizedGuard } from './modules/shared/guards/is-authorized.guard';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: false });
 
   const isAuthorizedGuard = app.select(SharedModule).get(IsAuthorizedGuard);
   app.useGlobalGuards(isAuthorizedGuard);

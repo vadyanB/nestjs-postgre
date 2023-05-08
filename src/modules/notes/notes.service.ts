@@ -20,10 +20,9 @@ export class NotesService {
   }
 
   async getNotesBy(filter: Partial<Note>) {
+    console.log(filter);
     return await this.noteRepository.find({
       where: filter,
-    }).catch(() => {
-      return [];
     });
   }
 
