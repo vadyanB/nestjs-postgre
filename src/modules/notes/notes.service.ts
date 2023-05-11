@@ -43,7 +43,7 @@ export class NotesService {
     await this.noteRepository.update(id, {
       text,
       title,
-      topic: { id: topicId },
+      topicId,
     });
     return this.findOne({ id });
   }
